@@ -1,10 +1,8 @@
-"use client"
-
-import type React from "react"
+import React from "react"
 
 import axios from "axios"
 import { useState } from "react"
-import { Button, Form, Container, Row, Col, Card, Alert, Spinner } from "react-bootstrap"
+import { Button, Form, Container, Row, Col, Card, Alert } from "react-bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 interface IndexResponse {
@@ -13,10 +11,9 @@ interface IndexResponse {
   error_message?: string
 }
 
-export default function NumberIndexUI() {
+export default function App() {
   const [inputValue, setInputValue] = useState<string>("")
   const [result, setResult] = useState<IndexResponse | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,12 +27,6 @@ export default function NumberIndexUI() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!inputValue) {
-      setError("Please enter a number")
-      return
-    }
-
-    setIsLoading(true)
     setError(null)
 
     try {
@@ -44,8 +35,6 @@ export default function NumberIndexUI() {
     } catch (err) {
       setError(`Failed to fetch data: ${axios.isAxiosError(err) ? err.message : String(err)}`)
       setResult(null)
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -58,46 +47,32 @@ export default function NumberIndexUI() {
               <h4 className="mb-0">Number Index Finder</h4>
             </Card.Header>
             <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Enter a number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    placeholder="Enter number"
-                    disabled={isLoading}
-                  />
-                  <Form.Text className="text-muted">Only numeric values are allowed.</Form.Text>
-                </Form.Group>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="number-input">Enter a number</Form.Label>
+                <Form.Control
+                  id="number-input"
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  placeholder="Enter number"
+                />
+                <Form.Text className="text-muted">Only numeric values are allowed.</Form.Text>
+              </Form.Group>
 
-                <Button variant="primary" type="submit" disabled={isLoading || !inputValue} className="w-100">
-                  {isLoading ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                        className="me-2"
-                      />
-                      Loading...
-                    </>
-                  ) : (
-                    "Get Index"
-                  )}
-                </Button>
-              </Form>
+              <Button variant="primary" type="submit" disabled={!inputValue} className="w-100">
+                  Get Index
+              </Button>
+            </Form>
 
-              {error && (
-                <Alert variant="danger" className="mt-3">
-                  {error}
-                </Alert>
-              )}
+            {error && (
+              <Alert variant="danger" className="mt-3">
+                {error}
+              </Alert>
+            )}
 
             {result && (
-              <Alert variant={result.error_message ? "danger" : "success"} className="mt-3">
+              <Alert variant={result.error_message ? "warning" : "success"} className="mt-3">
                 {result.error_message ? (
                   <p className="mb-0">{result.error_message}</p>
                 ) : (
