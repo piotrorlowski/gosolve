@@ -13,6 +13,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.66.11",
     "axios": "^1.8.1",
     "bootstrap": "^5.3.3",
     "react": "^19.0.0",
@@ -37,6 +38,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^26.0.0",
     "msw": "^2.7.3",
+    "prettier": "3.5.2",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
