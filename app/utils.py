@@ -2,7 +2,7 @@ from typing import Union
 
 
 def find_index(value: int, numbers: list[int]) -> Union[int, None]:
-    """Finds the index of the value in the list."""
+    """Finds the index of the value in the list withing 10% range."""
     lower_bound = value * 0.9
     upper_bound = value * 1.1
 

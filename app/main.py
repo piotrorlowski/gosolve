@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Loads the numbers when FastAPI starts."""
+    """Loads data when FastAPI starts."""
     data["numbers"] = load_numbers()
     logger.info(f"Data loaded successfully with {len(data['numbers'])} numbers.")
     yield
