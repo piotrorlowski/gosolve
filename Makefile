@@ -48,7 +48,6 @@ run:
 	@echo "Starting the project (backend and frontend)..."
 	@(make run-api & make run-ui & wait) 
 	@echo "Project is running!"
-	@wait
 
 # Run the backend tests (inside api/ directory)
 test-api:
