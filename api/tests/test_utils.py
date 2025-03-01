@@ -2,7 +2,7 @@ from api.utils import find_index
 from api.data import data
 
 
-def expected_values():
+def expected_values() -> list[tuple[int, int]]:
     return [
         (0, 0),
         (100, 1),
