@@ -29,12 +29,12 @@ install: install-venv install-requirements install-frontend-deps
 # Run the FastAPI backend (inside api/ directory)
 run-api:
 	@echo "Starting FastAPI server inside api/ directory..."
-	@source $(VENV_DIR)/bin/activate && cd api && uvicorn main:app --reload
+	@source $(VENV_DIR)/bin/activate && cd api && fastapi dev main.py &
 
 # Run the frontend (inside ui/ directory)
 run-ui:
 	@echo "Starting frontend development server inside ui/ directory..."
-	@cd ui && npm run dev
+	@cd ui && npm run dev &
 
 # Run the entire project (backend + frontend)
 run: run-api run-ui
