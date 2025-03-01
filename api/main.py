@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
-    Loads numbers from file into data object when FastAPI starts.
+    Loads numbers from file when FastAPI starts.
 
     Problems:
     - FastAPI can run in multi-worker environment.
