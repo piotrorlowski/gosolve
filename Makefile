@@ -36,16 +36,19 @@ install: install-venv install-requirements install-frontend-deps create-env-file
 # Run the FastAPI backend (inside api/ directory)
 run-api:
 	@echo "Starting FastAPI server inside api/ directory..."
-	@source $(VENV_DIR)/bin/activate && cd api && fastapi dev main.py &
+	@source $(VENV_DIR)/bin/activate && cd api && fastapi dev main.py
 
 # Run the frontend (inside ui/ directory)
 run-ui:
 	@echo "Starting frontend development server inside ui/ directory..."
-	@cd ui && npm run dev &
+	@cd ui && npm run dev
 
-# Run the entire project (backend + frontend)
-run: run-api run-ui
+# Run both backend and frontend concurrently in separate processes but within the same shell context
+run: 
+	@echo "Starting the project (backend and frontend)..."
+	@(make run-api & make run-ui & wait) 
 	@echo "Project is running!"
+	@wait
 
 # Run the backend tests (inside api/ directory)
 test-api:
