@@ -10,7 +10,6 @@ def find_index(value: int, numbers: list[int]) -> Union[int, None]:
     lower_bound = value * 0.9
     upper_bound = value * 1.1
 
-    # Binary search to find the closest value within the bounds
     left, right = 0, len(numbers) - 1
     closest_index = -1
     closest_diff = None
@@ -31,7 +30,6 @@ def find_index(value: int, numbers: list[int]) -> Union[int, None]:
         elif mid_value > value:
             right = mid - 1
         else:
-            # Exact match, no need to continue
             return mid
 
     return closest_index if closest_index != -1 else None
