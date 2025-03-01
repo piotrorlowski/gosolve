@@ -42,6 +42,9 @@ After the virtual environment is created, this command installs the Python depen
 
 This command installs all JavaScript dependencies for the frontend application (located in the `ui/` directory) using `npm install`. It is essential for running the frontend development server and tests. Run this command to install the necessary dependencies in the `ui/` directory before starting the frontend.
 
+### `make create-env-file`
+This command creates .env file with default configuration PORT=8000 and LOG_LEVEL=Debug
+
 ### `make run-api`
 
 This command starts the FastAPI backend server using `uvicorn`. The virtual environment is activated before running the server. It runs the server in "reload" mode, meaning the server will automatically restart on code changes. Use this command to run the backend server.

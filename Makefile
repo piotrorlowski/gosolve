@@ -22,8 +22,15 @@ install-frontend-deps:
 	@cd ui && npm install
 	@echo "Frontend dependencies installed."
 
+# Create .env file with necessary environment variables
+create-env-file:
+	@echo "Creating .env file with required environment variables..."
+	@echo "PORT=8000" > .env
+	@echo "LOG_LEVEL=Debug" >> .env
+	@echo ".env file created with PORT=8000 and LOG_LEVEL=Debug."
+
 # Run full installation (create venv, install Python and frontend dependencies)
-install: install-venv install-requirements install-frontend-deps
+install: install-venv install-requirements install-frontend-deps create-env-file
 	@echo "Project setup complete!"
 
 # Run the FastAPI backend (inside api/ directory)
