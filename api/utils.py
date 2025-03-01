@@ -17,16 +17,18 @@ def find_index(value: int, numbers: list[int]) -> Union[int, None]:
     closest_index = None
     closest_diff = None
 
+    current_num = numbers[idx]
+    previous_num = numbers[idx - 1]
+
     # Check if the element at the found index is within the bounds
-    if idx < len(numbers) and lower_bound <= numbers[idx] <= upper_bound:
+    if lower_bound <= current_num <= upper_bound:
+        closest_diff = abs(current_num - value)
         closest_index = idx
-        closest_diff = abs(numbers[idx] - value)
 
     # Check the previous element to see if it's closer
-    if idx > 0 and lower_bound <= numbers[idx - 1] <= upper_bound:
-        diff = abs(numbers[idx - 1] - value)
+    if lower_bound <= previous_num <= upper_bound:
+        diff = abs(previous_num - value)
         if closest_diff is None or diff < closest_diff:
             closest_index = idx - 1
-            closest_diff = diff
 
     return closest_index if closest_index is not None else None
