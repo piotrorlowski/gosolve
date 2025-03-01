@@ -81,8 +81,12 @@ This command runs the frontend tests using `vitest` (or a similar JavaScript tes
 ```plaintext
 .
 ├── api/                # Backend directory (FastAPI)
-│   └── main.py         # FastAPI app entry point
-├── ui/                 # Frontend directory (Vue.js or React.js)
+│   ├── main.py         # Entry point for the FastAPI application
+│   ├── utils.py        # Utility functions, including an algorithm to find the index of a value in a list
+│   ├── data.py         # Function responsible for loading data into memory
+│   ├── routers/        # Directory containing API endpoints
+│   │   └── index.py    # Endpoint for retrieving the index of a value in a list
+├── ui/                 # Frontend directory (React.js)
 │   └── package.json    # Frontend dependencies and scripts
 ├── venv/               # Python virtual environment
 ├── requirements.txt    # Python dependencies
