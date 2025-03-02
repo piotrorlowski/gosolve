@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
-from api.utils import find_index
 from api.data import data
 from api.routers.schema import IndexItem
+from api.utils import find_index
 
 router = APIRouter()
 

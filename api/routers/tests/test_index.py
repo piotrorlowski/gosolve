@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
+
+from api.data import data
 from api.main import app
 from api.utils import find_index
-from api.data import data
 
 client = TestClient(app)
 

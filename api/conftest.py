@@ -1,6 +1,6 @@
 import pytest
-from api.data import load_numbers
-from api.data import data
+
+from api.data import data, load_numbers
 
 
 @pytest.fixture(scope="module", autouse=True)
