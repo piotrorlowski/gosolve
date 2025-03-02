@@ -25,8 +25,11 @@ install-frontend-deps:
 # Create .env file with necessary environment variables
 create-env-file:
 	@echo "Creating .env file with required environment variables..."
-	@echo "PORT=8000" > .env
-	@echo "LOG_LEVEL=Debug" >> .env
+	@echo "API_PORT=8000" > .env
+	@echo "VITE_API_HOST=localhost" > .env
+	@echo "VITE_API_PORT=8000" > .env
+	@echo "FE_PORT=5173" > .env
+	@echo "LOG_LEVEL=DEBUG" >> .env
 	@echo ".env file created with PORT=8000 and LOG_LEVEL=Debug."
 
 # Run full installation (create venv, install Python and frontend dependencies)
@@ -36,7 +39,7 @@ install: install-venv install-requirements install-frontend-deps create-env-file
 # Run the FastAPI backend (inside api/ directory)
 run-api:
 	@echo "Starting FastAPI server inside api/ directory..."
-	@source $(VENV_DIR)/bin/activate && cd api && fastapi dev main.py
+	@source $(VENV_DIR)/bin/activate && python3 -m api.main
 
 # Run the frontend (inside ui/ directory)
 run-ui:

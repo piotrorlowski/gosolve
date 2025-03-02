@@ -1,5 +1,5 @@
-from api.utils import find_index
 from api.data import data
+from api.utils import find_index
 
 
 def expected_values() -> list[tuple[int, int]]:

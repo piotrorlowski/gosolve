@@ -1,37 +1,23 @@
-import os
 import logging
-
-from dotenv import load_dotenv
-import uvicorn
+import os
 from contextlib import asynccontextmanager
+
+import uvicorn
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from api.data import data, load_numbers
 from api.routers import index
-from api.data import data
-from api.data import load_numbers
 
 load_dotenv()
 
-LOG_LEVEL = {
-    "Info": "INFO",
-    "Debug": "DEBUG",
-    "Warning": "WARNING",
-}
-
-port = int(os.getenv("PORT", 8000))
-
-log_level = LOG_LEVEL.get(os.getenv("LOG_LEVEL"))
-
-# Fallback to a default value could be added anyway
-# in case of missing .env file
-# or missing variables in .env file.
-
-if not log_level:
-    raise RuntimeError("LOG_LEVEL is not set in .env file.")
-
+API_PORT = int(os.getenv("API_PORT", 8000))
+FE_PORT = int(os.getenv("FE_PORT", 5173))
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 logging.basicConfig(
-    level=getattr(logging, log_level, logging.INFO),
+    level=getattr(logging, LOG_LEVEL, logging.INFO),
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )  # timestamp - logger name - log level - message
 logger = logging.getLogger(__name__)
@@ -57,9 +43,7 @@ async def lifespan(app: FastAPI):
         logger.info(f"Data loaded successfully with {len(data['numbers'])} numbers.")
     except Exception as e:
         logger.error(f"Failed to load data: {e}")
-
     yield
-
     data.clear()
 
 
@@ -67,7 +51,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[f"http://localhost:{FE_PORT}"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -76,4 +60,4 @@ app.add_middleware(
 app.include_router(index.router)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    uvicorn.run(app, port=API_PORT)

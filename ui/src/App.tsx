@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
+import { ENDPOINTS } from './config'
 import { Button, Form, Container, Row, Col, Card, Alert } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -18,9 +19,7 @@ export default function App() {
     } = useMutation<IndexResponse>({
         mutationFn: async () => {
             try {
-                const response = await axios.get(
-                    `http://localhost:8000/index/${inputValue}/`
-                )
+                const response = await axios.get(ENDPOINTS.INDEX(inputValue))
                 return response.data
             } catch (err) {
                 throw new Error(
