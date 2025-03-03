@@ -2,13 +2,23 @@ import bisect
 from typing import Union
 
 
+def binary_search(value: int, numbers: list[int]) -> int:
+    left, right = 0, len(numbers)
+    while left < right:
+        mid = (left + right) // 2
+        if numbers[mid] < value:
+            left = mid + 1
+        else:
+            right = mid
+    return left
+
+
 def find_index(value: int, numbers: list[int]) -> Union[int, None]:
     """
     Finds the index of the value in the list within a 10% range.
 
     It is assumed that the list is sorted in ascending order.
     """
-    # Use bisect to find the closest possible index
     idx = bisect.bisect_left(numbers, value)
 
     lower_bound = value * 0.9
@@ -21,12 +31,10 @@ def find_index(value: int, numbers: list[int]) -> Union[int, None]:
         current_num = numbers[idx]
         previous_num = numbers[idx - 1]
 
-        # Check if the element at the found index is within the bounds
         if lower_bound <= current_num <= upper_bound:
             closest_diff = abs(current_num - value)
             closest_index = idx
 
-        # Check the previous element to see if it's closer
         if lower_bound <= previous_num <= upper_bound:
             diff = abs(previous_num - value)
             if closest_diff is None or diff < closest_diff:
