@@ -72,7 +72,7 @@ This command runs the backend tests using `pytest`. It ensures that the backend 
 
 ### `make test-ui`
 
-This command runs the frontend tests using `vitest` (or a similar JavaScript testing framework). The tests are located inside the `ui/` directory. Use this command to run only the frontend tests.
+This command runs the frontend tests using `vitest`. The tests are located inside the `ui/` directory. Use this command to run only the frontend tests.
 
 ---
 
