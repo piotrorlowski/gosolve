@@ -1,7 +1,10 @@
+import pytest
+
 from api.data import data
 from api.utils import find_index
 
 
+@pytest.fixture
 def expected_values() -> list[tuple[int, int]]:
     return [
         (0, 0),
@@ -13,11 +16,12 @@ def expected_values() -> list[tuple[int, int]]:
         (1000000, 10000),
         (9999900, 99999),
         (10000000, 100000),
+        (10000000000000000000000000, None),
     ]
 
 
-def test_find_index_returns_expected_index():
-    for value, index in expected_values():
+def test_find_index_returns_expected_index(expected_values):
+    for value, index in expected_values:
         assert {"value": value, "index": find_index(value, data["numbers"])} == {
             "value": value,
             "index": index,
