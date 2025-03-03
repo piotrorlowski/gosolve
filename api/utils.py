@@ -7,7 +7,6 @@ def find_index(value: int, numbers: list[int]) -> Union[int, None]:
 
     It is assumed that the list is sorted in ascending order.
     """
-
     lower_bound = value * 0.9
     upper_bound = value * 1.1
 
