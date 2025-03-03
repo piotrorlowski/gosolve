@@ -2,17 +2,6 @@ import bisect
 from typing import Union
 
 
-def binary_search(value: int, numbers: list[int]) -> int:
-    left, right = 0, len(numbers)
-    while left < right:
-        mid = (left + right) // 2
-        if numbers[mid] < value:
-            left = mid + 1
-        else:
-            right = mid
-    return left
-
-
 def find_index(value: int, numbers: list[int]) -> Union[int, None]:
     """
     Finds the index of the value in the list within a 10% range.
