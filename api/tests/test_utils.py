@@ -23,7 +23,7 @@ def expected_values() -> list[tuple[int, int]]:
     ]
 
 
-def test_find_index_returns_expected_index(expected_values):
+def test_find_index_returns_expected_index(expected_values: list[tuple[int, int]]):
     for value, index in expected_values:
         assert {"value": value, "index": find_index(value, data["numbers"])} == {
             "value": value,
