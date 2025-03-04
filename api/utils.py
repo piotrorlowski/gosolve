@@ -31,4 +31,7 @@ def find_index(value: int, numbers: list[int]) -> Union[int, None]:
 
         return closest_index if closest_index is not None else None
     except IndexError:
+        num = numbers[idx - 1]
+        if lower_bound <= num <= upper_bound:
+            return idx - 1
         return None
