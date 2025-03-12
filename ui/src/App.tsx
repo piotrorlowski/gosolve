@@ -5,29 +5,19 @@ import { ENDPOINTS } from './config'
 import { Button, Form, Container, Row, Col, Card, Alert } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-type IndexResponse = {
-    value?: number
-    index?: number
-}
-
 export default function App() {
-    const [inputValue, setInputValue] = useState<string>('')
+    const [inputMessage, setInputMessage] = useState<string>('')
     const {
         mutate,
-        data: result,
+        data: response,
         error,
-    } = useMutation<IndexResponse>({
+        isPending: isLoading,
+    } = useMutation({
         mutationFn: async () => {
-            try {
-                const response = await axios.get(ENDPOINTS.INDEX(inputValue))
-                return response.data
-            } catch (err) {
-                throw new Error(
-                    axios.isAxiosError(err) && err.response?.status === 404
-                        ? 'Index not found.'
-                        : `Failed to fetch data: ${String(err)}`
-                )
-            }
+            const res = await axios.post(ENDPOINTS.CHAT(), {
+                message: inputMessage,
+            })
+            return res.data
         },
     })
 
@@ -37,7 +27,7 @@ export default function App() {
                 <Col md={8} lg={6}>
                     <Card className="shadow">
                         <Card.Header className="bg-primary text-white">
-                            <h4 className="mb-0">Number Index Finder</h4>
+                            <h4 className="mb-0">AI Chat</h4>
                         </Card.Header>
                         <Card.Body>
                             <Form
@@ -47,31 +37,27 @@ export default function App() {
                                 }}
                             >
                                 <Form.Group className="mb-3">
-                                    <Form.Label htmlFor="number-input">
-                                        Enter a number
+                                    <Form.Label htmlFor="chat-input">
+                                        Ask a question:
                                     </Form.Label>
                                     <Form.Control
-                                        id="number-input"
-                                        type="number"
-                                        value={inputValue}
-                                        min={0}
+                                        id="chat-input"
+                                        type="text"
+                                        value={inputMessage}
                                         onChange={(event) =>
-                                            setInputValue(event.target.value)
+                                            setInputMessage(event.target.value)
                                         }
-                                        placeholder="Enter number"
+                                        placeholder="Type your question..."
                                     />
-                                    <Form.Text className="text-muted">
-                                        Only numeric values are allowed.
-                                    </Form.Text>
                                 </Form.Group>
 
                                 <Button
                                     variant="primary"
                                     type="submit"
-                                    disabled={!inputValue}
+                                    disabled={!inputMessage || isLoading}
                                     className="w-100"
                                 >
-                                    Get index
+                                    {isLoading ? 'Thinking...' : 'Ask AI'}
                                 </Button>
                             </Form>
 
@@ -81,14 +67,9 @@ export default function App() {
                                 </Alert>
                             )}
 
-                            {result && (
-                                <Alert variant="success" className="mt-3">
-                                    <p className="mb-0">
-                                        The given value is{' '}
-                                        <strong>{result.value}</strong> and the
-                                        index for this value is{' '}
-                                        <strong>{result.index}</strong>.
-                                    </p>
+                            {response && (
+                                <Alert variant="primary" className="mt-3">
+                                    <p className="mb-0">{response.response}</p>
                                 </Alert>
                             )}
                         </Card.Body>

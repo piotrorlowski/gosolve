@@ -6,9 +6,10 @@ import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from langchain_openai import ChatOpenAI
 
-from api.data import data, load_numbers
-from api.routers import index
+from api.data import data
+from api.routers.chat import chat
 
 load_dotenv()
 
@@ -38,16 +39,17 @@ async def lifespan(app: FastAPI):
     - In case of the bigger data / multiple workers,
     use database instead of storing data inside memory.
     """
-    try:
-        data["numbers"] = load_numbers()
-        logger.info(f"Data loaded successfully with {len(data['numbers'])} numbers.")
-    except Exception as e:
-        logger.error(f"Failed to load data: {e}")
+    data["chat"] = ChatOpenAI(
+        model="gpt-4",
+        temperature=0.7,
+        api_key=os.getenv("OPENAI_API_KEY"),
+    )
     yield
     data.clear()
 
 
 app = FastAPI(lifespan=lifespan)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -57,7 +59,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(index.router)
+app.include_router(chat.router)
 
 if __name__ == "__main__":
     uvicorn.run(app, port=API_PORT)
