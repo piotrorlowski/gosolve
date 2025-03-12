@@ -27,17 +27,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
-    Loads numbers from file when FastAPI starts.
-
-    Problems:
-    - FastAPI can run in multi-worker environment.
-    - Data loaded into memory won't be shared between workers.
-    - Big data can also bloat memory of each worker, increasing overall
-    memory consumption.
-
-    Solution:
-    - In case of the bigger data / multiple workers,
-    use database instead of storing data inside memory.
+    Loads OpenAI chat.
     """
     data["chat"] = ChatOpenAI(
         model="gpt-4",
